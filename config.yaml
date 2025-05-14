@@ -3,3 +3,23 @@ sample_table_path: "sample_table.tsv"
 fastq_dir: "./test_data/oct4_sox2_601/fastq"
 ref_seq_path: 
  - "./test_data/oct4_sox2_601/Oct4Sox2_tile.fasta"
+
+QuasR_params:
+  project_name: "test"
+  n_cores: 16 # will be used to make cluster using parallel package
+  aligner: "Rbowtie"
+  aln_dir: "./results/QuasR/bam"
+  cacheDir: "./results/QuasR/cache"
+  aln_param: "--no-discordant"
+  spliced_aln: False
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////
+#region Snakemake Params
+# /////////////////////////////////////////////////////////////////////////////////////////////////
+# NOTE: This section hasn't been implemented yet
+
+# Choosing alignment method:
+#  QuasR: run using QuasR in R
+#  bowtie2: run through shell command
+Alignment_method: "QuasR" 
+
