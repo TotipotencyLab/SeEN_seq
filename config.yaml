@@ -1,0 +1,5 @@
+
+sample_table_path: "sample_table.tsv"
+fastq_dir: "./test_data/oct4_sox2_601/fastq"
+ref_seq_path: 
+ - "./test_data/oct4_sox2_601/Oct4Sox2_tile.fasta"

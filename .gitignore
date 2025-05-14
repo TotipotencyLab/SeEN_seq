@@ -1,3 +1,7 @@
+.DS_Store
+tmp_*
+
+# Template from GitHub ----------------------------------------------------------------------------
 # History files
 .Rhistory
 .Rapp.history
