@@ -1,6 +1,11 @@
 .DS_Store
 tmp_*
 
+# Test run
+# directory used for store outputs files from test run
+results 
+test_data
+
 # Template from GitHub ----------------------------------------------------------------------------
 # History files
 .Rhistory
