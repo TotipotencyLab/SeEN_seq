@@ -55,7 +55,9 @@ find_fastq <- function(sample_df, fastq_dir, quiet = FALSE, keep_NA_col = FALSE)
   # Description:
   #   This function will look for fastq files in the specified directory and assign them to the sample_df
   # input:
-  #   sample_df: <data frame>: with at least one column called "fastq_prefix"
+  #   sample_df: <data frame>: with at least twos columns 
+  #     sample: <character>: sample name
+  #     fastq_prefix: <character>: prefix of fastq files
   #   fastq_dir: <character>: lenght of 1; path to directory where fastq files are located
   #   quiet: <logical>: if TRUE, suppress warning messages
   #   keep_NA_col: <logical>: if TRUE, keep newly created columns with all NA values
@@ -71,6 +73,7 @@ find_fastq <- function(sample_df, fastq_dir, quiet = FALSE, keep_NA_col = FALSE)
   unfound_sample <- integer()
   unknown_sample <- integer()
   for (i in seq_along(sample_df$fastq_prefix)) {
+    # TODO: implement both startsWith and grepl (i.e., fastq_prefix is regex)
     f_hit <- base::startsWith(basename(f), sample_df$fastq_prefix[i])
     if (any(f_hit)) {
       # assign found fastq files to the sample_df
@@ -102,10 +105,12 @@ find_fastq <- function(sample_df, fastq_dir, quiet = FALSE, keep_NA_col = FALSE)
   # Warning of strange sample-fastq mapping
   if (!quiet) {
     if (length(unfound_sample) > 0) {
-      warning("Some samples are not found in fastq directory:\n", paste0(sample_df$fastq_prefix[unfound_sample], collapse = "\n"))
+      tmp_df <- sample_df[unfound_sample, , drop = FALSE]
+      warning("Some samples are not found in fastq directory:\n", paste0(tmp_df$sample, "  -  ", tmp_df$fastq_prefix, collapse = "\n"))
     }
     if (length(unknown_sample) > 0) {
-      warning("Some samples have unknown fastq files associated to them:\n", paste0(sample_df$fastq_prefix[unknown_sample], collapse = "\n"))
+      tmp_df <- sample_df[unknown_sample, , drop = FALSE]
+      warning("Some samples have unknown fastq files associated to them:\n", paste0(tmp_df$sample, "  -  ", tmp_df$fastq_prefix, collapse = "\n"))
     }
   }
 
@@ -119,3 +124,37 @@ find_fastq <- function(sample_df, fastq_dir, quiet = FALSE, keep_NA_col = FALSE)
   return(sample_df)
 }
 
+#region lib_layout
+sample_df_add_lib_layout <- function(sample_df) {
+  # Check library layout
+  # Assuming that sample_df has mixed of paired and single-end fastq files
+  proj_lib_layout <- c(single = FALSE, paired = FALSE)
+  SE_cols <- "fastq_SE"
+  PE_cols <- c("fastq_R1", "fastq_R2")
+
+  PE_row_idx <- integer()
+  if (all(PE_cols %in% colnames(sample_df))) {
+    PE_row_idx <- which(rowSums(is.na(sample_df[, PE_cols])) == 0)
+    if (length(PE_row_idx) > 0) proj_lib_layout["paired"] <- TRUE
+  }
+  SE_row_idx <- integer()
+  if (all(SE_cols %in% colnames(sample_df))) {
+    SE_row_idx <- which(rowSums(is.na(sample_df[, SE_cols])) == 0)
+    if (length(SE_row_idx) > 0) proj_lib_layout["single"] <- TRUE
+  }
+
+  if(length(intersect(SE_row_idx, PE_row_idx)) > 0) {
+    mixed_layout_idx <- intersect(SE_row_idx, PE_row_idx)
+    tmp_df <- sample_df[mixed_layout_idx, , drop=FALSE]
+    warning(
+      "Some samples have both paired (PE) and single-end (SE) fastq files associated to them. The PE will take priority here.\nAffected samples:\n",
+      paste0(tmp_df$sample, "  -  ", tmp_df$fastq_prefix, collapse = "\n")
+    )
+  }
+
+  sample_df$lib_layout <- NA
+  sample_df$lib_layout[SE_row_idx] <- "single"
+  sample_df$lib_layout[PE_row_idx] <- "paired"
+
+  return(sample_df)
+}
