@@ -372,7 +372,7 @@ col_df <- tmp_col_df %>%
   tibble::column_to_rownames(var="sample")
 
 ## Split counts matrix ----
-fraction_type <- unique(tmp_col_df$fraction)
+fraction_names <- unique(tmp_col_df$fraction)
 unq_sample <- unique(tmp_col_df$sample)
 
 # Set up a placeholder for any count matrix extracted from each fraction type
@@ -380,15 +380,15 @@ zeros_mat <- matrix(0, nrow=nrow(count_mat), ncol=length(unq_sample),
                   dimnames=list(rownames(count_mat), unq_sample))
 
 count_mat_fraction <- list()
-for(i in seq_along(fraction_type)){
-  cur_name <- paste0("counts_", fraction_type[i])
+for(i in seq_along(fraction_names)){
+  cur_name <- paste0("counts_", fraction_names[i])
   name_map <- tmp_col_df %>% 
-    dplyr::filter(fraction == fraction_type[i]) %>% 
+    dplyr::filter(fraction == fraction_names[i]) %>% 
     tibble::rownames_to_column(var="unique_name") %>% 
     dplyr::pull(sample, name=unique_name)
   
   if(any(duplicated(name_map))){
-    warning("Duplicated sample name found for the current fraction: ", fraction_type[i], 
+    warning("Duplicated sample name found for the current fraction: ", fraction_names[i], 
             "\nThis may cause issues when extracting count matrix for this fraction.")
   }
   
@@ -399,6 +399,9 @@ for(i in seq_along(fraction_type)){
     # Add missing samples with zero counts
     m <- cbind(m, zeros_mat[ , missing_samples, drop=FALSE])
   }
+  if(!is.null(config$pseudo_count)){
+    m <- m + config$pseudo_count
+  }
   count_mat_fraction[[cur_name]] <- m[ , unq_sample, drop=FALSE] # reorder the columns to match with unq_sample
 }
 # str(count_mat_fraction, max.level=1)
@@ -406,12 +409,64 @@ for(i in seq_along(fraction_type)){
 SeEN_se <- SummarizedExperiment(
   assays = count_mat_fraction, 
   colData = col_df, 
-  rowData = row_df
+  rowData = row_df,
+  metadata = list(fractions = fraction_names, 
+                  project_name = config$project_name, 
+                  ref_seq_path = config$ref_seq_path, 
+                  ref_table_path = ref_table_path, 
+                  sample_table_path = sample_df_path)
 )
 
 
 # .........................................................................----
 # /////////////////////////////////////////////////////////////////////////////
-#region Analysis ====
+#region Enrichment ====
 # /////////////////////////////////////////////////////////////////////////////
 
+## library size norm ----
+for(i in seq_along(fraction_names)){
+  m <- assay(SeEN_se, paste0("counts_", fraction_names[i]))
+  lib_size_mat <- matrix(colSums(m), nrow=nrow(m), ncol=ncol(m), byrow=TRUE)
+  libnorm_m <- m/lib_size_mat
+  assay(SeEN_se, paste0("libnorm_counts_", fraction_names[i])) <- libnorm_m
+}
+
+## Enrichment score ----
+# test_fractions <- fraction_names[!fraction_names %in% config$control_fraction]
+for(i in seq_along(config$compare_fraction)){
+  test_frac <- names(config$compare_fraction)[i]
+  for(j in seq_along(config$compare_fraction[[i]])){
+    ctrl_frac <- config$compare_fraction[[i]][j]
+    cur_name <- paste0("enrichment_", test_frac, "_vs_", ctrl_frac)
+    if(!test_frac %in% fraction_names || !ctrl_frac %in% fraction_names){
+      warning("Fraction ", test_frac, " or ", ctrl_frac, " not found in the fractions of the SE object. Skipping enrichment calculation for this pair.")
+      next
+    }
+    test_m <- assay(SeEN_se, paste0("libnorm_counts_", test_frac))
+    ctrl_m <- assay(SeEN_se, paste0("libnorm_counts_", ctrl_frac))
+    assay(SeEN_se, cur_name) <- log2(test_m/ctrl_m)
+  }
+}
+
+
+if(F){
+  # Test visualization
+  r_df <- as.data.frame(rowData(SeEN_se)) %>% 
+    rownames_to_column(var="ref_name")
+  c_df <- as.data.frame(colData(SeEN_se)) %>% 
+    rownames_to_column(var="sample")
+  m <- assay(SeEN_se, "enrichment_bound_vs_unbound")
+  p_df <- as.data.frame(m) %>% 
+    rownames_to_column(var="ref_name") %>% 
+    gather(key="sample", value="value", -ref_name) %>% 
+    left_join(c_df, by="sample") %>%
+    left_join(r_df, by="ref_name") %>% 
+    replace_na(list(Oct4_motif_position=-1)) %>%  # For row data
+    as_tibble()
+  p_df %>% 
+    ggplot(aes(x=Oct4_motif_position, y=value, group = sample, color=condition)) +
+    geom_line(alpha=0.5) +
+    geom_hline(yintercept = 0, linetype="dashed", color="grey") +
+    facet_grid(condition ~ .) +
+    theme_classic()
+}

@@ -11,7 +11,12 @@ ref_seq_path:
 
 result_dir: "./results"
 
-ref_fraction: "unbound"
+# Analysis section
+pseudo_count: 1
+compare_fraction:
+  # test: control # or
+  # test: [control_1, control_2]
+  bound: [unbound]
 
 # Quasr Parameters
 QuasR_params:
