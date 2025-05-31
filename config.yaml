@@ -1,15 +1,25 @@
+project_name: "test_SeEN_seq"
 
+# Sample Information
 sample_table_path: "sample_table.tsv"
+
+# Reference Information
+ref_table_path: "ref_table.tsv"
 fastq_dir: "./test_data/oct4_sox2_601/fastq"
 ref_seq_path: 
  - "./test_data/oct4_sox2_601/Oct4Sox2_tile.fasta"
 
+result_dir: "./results"
+
+ref_fraction: "unbound"
+
+# Quasr Parameters
 QuasR_params:
-  project_name: "test"
+  # project_name: "test"
   n_cores: 16 # will be used to make cluster using parallel package
   aligner: "Rbowtie"
-  aln_dir: "./results/QuasR/bam"
-  cacheDir: "./results/QuasR/cache"
+  aln_dir: "bam"
+  cache_dir: "cache"
   aln_param: "--no-discordant"
   spliced_aln: False
 
@@ -19,7 +29,6 @@ QuasR_params:
 # NOTE: This section hasn't been implemented yet
 
 # Choosing alignment method:
-#  QuasR: run using QuasR in R
+#  QuasR: run using QuasR in R (running bowtie2 in the background)
 #  bowtie2: run through shell command
-Alignment_method: "QuasR" 
-
+aligner: "QuasR" 
