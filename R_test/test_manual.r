@@ -96,3 +96,7 @@ SeEN_se <- Summarized_SeEN_Experiment(count_matrix=count_mat, sample_table=sampl
 SeEN_se <- SeEN_se.library_size_norm(SeEN_se=SeEN_se, pseudo_count=1)
 SeEN_se <- SeEN_se.enrichment(SeEN_se=SeEN_se, comparisons=config$compare_fraction)
 
+
+# SeEN_se to Xlsx file ----
+source(paste0(wd, "/scripts/write_SeEN_xlsx.r"))
+SeEN_se.write_xlsx(SeEN_se, file=paste0(wd, "/results/", config$project_name, "/", config$project_name, "_SeEN_data.xlsx"))
