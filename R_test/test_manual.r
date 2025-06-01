@@ -25,12 +25,25 @@ setwd(wd)
 config <- yaml::read_yaml("config.yaml")
 str(config)
 
+sample_df <- read.table(config$sample_table_path, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+ref_df <- read.table(config$ref_table_path, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+
+fastq_dir <- config$fastq_dir
+fastq_ext_regex <- "((\\.fq)|(\\.fastq))(\\.gz)?$"
+verbose=TRUE
+
+ref_fa <- Biostrings::readDNAStringSet(config$ref_seq_path)
+ref_gr <- GRanges(
+  seqnames = names(ref_fa),
+  ranges = IRanges(start = 1, end = width(ref_fa)),
+)
+# Because we count per each entry of fasta, there shouldn't be any duplicated names
+names(ref_gr) <- as.character(seqnames(ref_gr))
+
 # /////////////////////////////////////////////////////////////////////////////////////////////////
 # region Test fastq search
 # /////////////////////////////////////////////////////////////////////////////////////////////////
 source(paste0(wd, "/scripts/find_fastq.r"))
-sample_df_path <- config$sample_table_path
-sample_df <- read.table(sample_df_path, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
 # Locating fastq with prefix specified in sample_df
 sample_df <- find_fastq(sample_df, config$fastq_dir)
 # Annotating the library layout (i.e., single-end or paired-end) of each sample
@@ -70,13 +83,16 @@ PE_count_mat <- QuasR_wrapper_base(
 
 # Testing the main wrapper function
 count_mat <- QuasR_wrapper(config)
-write.table(count_mat, file = paste0(wd, "/results/count_matrix.txt"), sep = "\t", row.names = TRUE, col.names = TRUE, quote = FALSE)
-Heatmap(count_mat, cluster_rows = FALSE, cluster_columns = FALSE)
+# write.table(count_mat, file = paste0(wd, "/results/count_matrix.txt"), sep = "\t", row.names = TRUE, col.names = TRUE, quote = FALSE)
+# Heatmap(count_mat, cluster_rows = FALSE, cluster_columns = FALSE)
 
 
 
 # Test constructing SE object
-ref_table <- read.table(config$ref_table_path, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
-SummarizedExperiment(assays=list(counts = count_mat[ , -1]), 
-                     colData=tibble::column_to_rownames(sample_df, var="sample"),
-                     rowData=tibble::column_to_rownames(ref_table, var="ref_name"))
+source(paste0(wd, "/scripts/Summarized_SeEN_Experiment.r"))
+valid_SumExp_inputs(count_mat = count_mat, sample_table=sample_df, ref_table=ref_df, behavior = "message")
+SeEN_se <- Summarized_SeEN_Experiment(count_matrix=count_mat, sample_table=sample_df, ref_table=ref_df, config=config)
+
+SeEN_se <- SeEN_se.library_size_norm(SeEN_se=SeEN_se, pseudo_count=1)
+SeEN_se <- SeEN_se.enrichment(SeEN_se=SeEN_se, comparisons=config$compare_fraction)
+

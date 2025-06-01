@@ -80,7 +80,9 @@ QuasR_wrapper_base <- function(sample_path, genome, config, verbose=TRUE){
   if (inherits(cl, "cluster")) {
     stopCluster(cl)
   }
-
+  
+  # Removing the 'width' columns that is default from QuasR::qCount() function
+  count_mat <- count_mat[ , colnames(count_mat) != "width", drop=FALSE]
   return(count_mat)
 }
 
