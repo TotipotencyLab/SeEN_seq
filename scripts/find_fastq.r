@@ -104,7 +104,12 @@ find_fastq <- function(sample_df, fastq_dir, quiet = FALSE, keep_NA_col = FALSE)
 
   # Warning of strange sample-fastq mapping
   if (!quiet) {
-    if (length(unfound_sample) > 0) {
+    if(length(unfound_sample) == nrow(sample_df)) {
+      warning(
+        "Couldn't find any fastq files for all samples. Please check if the directory for the fastq files is correct.\n",
+        "Received fastq directory: ", fastq_dir, "\n"
+      )
+    } else if (length(unfound_sample) > 0) {
       tmp_df <- sample_df[unfound_sample, , drop = FALSE]
       warning("Some samples are not found in fastq directory:\n", paste0(tmp_df$sample, "  -  ", tmp_df$fastq_prefix, collapse = "\n"))
     }
