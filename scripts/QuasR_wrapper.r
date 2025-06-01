@@ -15,24 +15,32 @@ QuasR_wrapper_base <- function(sample_path, genome, config, verbose=TRUE){
   require(Biostrings)
   
   # Set up ----------------------------------------------------------------------------------------
-  params <- config$QuasR_params
+  QuasR_dir <- paste0(config$result_dir, "/", config$project_name, "/QuasR")
+  QuasR_output_prefix <- paste0(QuasR_dir, "/", config$project_name)
+  QuasR_count_mat_path <- paste0(QuasR_output_prefix, "_count_matrix.txt")
+  QuasR_params <- config$QuasR_params
+
+  QuasR_aln_dir <- QuasR_dir
+  QuasR_cache_dir <- QuasR_dir
 
   # make temp dir
-  if (!is.null(params$aln_dir)) {
-    if (!dir.exists(params$aln_dir)) {
-      dir.create(params$aln_dir, recursive = TRUE)
+  if (!is.null(QuasR_params$aln_dir)) {
+    QuasR_aln_dir <- paste0(QuasR_dir, "/", QuasR_params$aln_dir)
+    if (!dir.exists(QuasR_aln_dir)) {
+      dir.create(QuasR_aln_dir, recursive = TRUE)
     }
   }
 
-  if (!is.null(params$cache_dir)) {
-    if (!dir.exists(params$cache_dir)) {
-      dir.create(params$cache_dir, recursive = TRUE)
+  if (!is.null(QuasR_params$cache_dir)) {
+    QuasR_cache_dir <- paste0(QuasR_dir, "/", QuasR_params$cache_dir)
+    if (!dir.exists(QuasR_cache_dir)) {
+      dir.create(QuasR_cache_dir, recursive = TRUE)
     }
   }
 
   # cluster parameters
   cl <- NULL # QuasR default
-  request_core <- params$n_core
+  request_core <- QuasR_params$n_core
   if (is.null(request_core)) request_core <- 1
   avail_core <- parallel::detectCores()
   use_core <- min(request_core, avail_core)
@@ -48,12 +56,12 @@ QuasR_wrapper_base <- function(sample_path, genome, config, verbose=TRUE){
     # sampleFile = QuasR_df_list$input_PE,
     sampleFile = sample_path,
     genome = config$ref_seq_path,
-    aligner = params$aligner,
-    projectName = params$project_name,
-    alignmentsDir = params$aln_dir,
-    alignmentParameter = params$aln_params,
-    splicedAlignment = params$spliced_aln,
-    cacheDir = params$cache_dir,
+    aligner = QuasR_params$aligner,
+    projectName = config$project_name,
+    alignmentsDir = QuasR_aln_dir,
+    alignmentParameter = QuasR_params$aln_params,
+    splicedAlignment = QuasR_params$spliced_aln,
+    cacheDir = QuasR_cache_dir,
     clObj = cl
   )
 
@@ -85,11 +93,15 @@ QuasR_wrapper_base <- function(sample_path, genome, config, verbose=TRUE){
 QuasR_wrapper <- function(config){
   # Top level wrapper for QuasR, only need config list as input
 
-  if(!is.list(config)){
+  if (!is.list(config)) {
     # Attempt to read yaml file
     require(yaml)
     config <- yaml::read_yaml(config)
   }
+  QuasR_dir <- paste0(config$result_dir, "/", config$project_name, "/QuasR")
+  QuasR_output_prefix <- paste0(QuasR_dir, "/", config$project_name)
+  QuasR_count_mat_path <- paste0(QuasR_output_prefix, "_count_matrix.txt")
+
 
   # Get sample input
   sample_df_path <- config$sample_table_path
@@ -100,7 +112,7 @@ QuasR_wrapper <- function(config){
   sample_df <- sample_df_add_lib_layout(sample_df)
   
   # Extract input for QuasR for each library layout
-  QuasR_df_list <- sample_df_to_QuasR_table(sample_df, output_prefix = "./results/QuasR/QuasR_sample", Return = TRUE, verbose = TRUE)
+  QuasR_df_list <- sample_df_to_QuasR_table(sample_df, output_prefix = QuasR_output_prefix, Return = TRUE, verbose = TRUE)
 
   # Alignment and count reads ---------------------------------------------------------------------
   # Align and count reads

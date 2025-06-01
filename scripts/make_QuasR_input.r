@@ -36,44 +36,47 @@ sample_df_to_QuasR_table <- function(sample_df, output_prefix="./QuasR_sample", 
     }
   }
 
-  # Make the input table for QuasR
-  out_SE_file <- character(0)
-  out_PE_file <- character(0)
+  # Placeholders for outputs
+  QuasR_input_SE_file <- character(0)
+  QuasR_input_PE_file <- character(0)
+  QuasR_SE_df <- data.frame()
+  QuasR_PE_df <- data.frame()
+
 
   # NOTE: QuasR doesn't seems to understand the symbolic link, make sre we feed in the absolute path here.
   if(nrow(sample_SE_df) > 0){
     # Input table for SE required two column: FileName and SampleName
-    sample_SE_df <- sample_SE_df %>%
-      select(FileName = fastq_SE, SampleName = sample) %>%
+    QuasR_SE_df <- sample_SE_df %>%
+      select(FileName = fastq_SE, SampleName = unique_name) %>%
       rowwise() %>%
       mutate(FileName = tools::file_path_as_absolute(FileName)) %>%
       ungroup()
-    out_SE_file <- paste0(output_prefix, "_SE.txt")
-    if(verbose) message("Writing QuasR input table for single-end samples to ", out_SE_file)
-    write.table(sample_SE_df, file = out_SE_file, sep = "\t", row.names = FALSE, quote = FALSE)
+    QuasR_input_SE_file <- paste0(output_prefix, "_sample_SE.txt")
+    if(verbose) message("Writing QuasR input table for single-end samples to ", QuasR_input_SE_file)
+    write.table(QuasR_SE_df, file = QuasR_input_SE_file, sep = "\t", row.names = FALSE, quote = FALSE)
   }
 
   if(nrow(sample_PE_df) > 0){
     # Input table for PE required three column: FileName1, FileName2 and SampleName
-    sample_PE_df <- sample_PE_df %>%
-      select(FileName1 = fastq_R1, FileName2 = fastq_R2, SampleName = sample) %>%
+    QuasR_PE_df <- sample_PE_df %>%
+      select(FileName1 = fastq_R1, FileName2 = fastq_R2, SampleName = unique_name) %>%
       rowwise() %>%
       mutate(
         FileName1 = tools::file_path_as_absolute(FileName1),
         FileName2 = tools::file_path_as_absolute(FileName2)
       ) %>%
       ungroup()
-    out_PE_file <- paste0(output_prefix, "_PE.txt")
-    if(verbose) message("Writing QuasR input table for paired-end samples to ", out_PE_file)
-    write.table(sample_PE_df, file = out_PE_file, sep = "\t", row.names = FALSE, quote = FALSE)
+    QuasR_input_PE_file <- paste0(output_prefix, "_sample_PE.txt")
+    if(verbose) message("Writing QuasR input table for paired-end samples to ", QuasR_input_PE_file)
+    write.table(QuasR_PE_df, file = QuasR_input_PE_file, sep = "\t", row.names = FALSE, quote = FALSE)
   }
 
   if (Return) {
     return(list(
-      input_SE = out_SE_file,
-      input_PE = out_PE_file,
-      SE = sample_SE_df,
-      PE = sample_PE_df
+      input_SE = QuasR_input_SE_file,
+      input_PE = QuasR_input_PE_file,
+      SE = QuasR_SE_df,
+      PE = QuasR_PE_df
     ))
   }
 }
