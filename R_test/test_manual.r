@@ -63,30 +63,29 @@ QuasR_df_list <- sample_df_to_QuasR_table(sample_df, output_prefix = QuasR_outpu
 # region Run QuasR
 
 source(paste0(wd, "/scripts/QuasR_wrapper.r"))
-
-# Testing the base function
-# Align and count reads
-SE_count_mat <- QuasR_wrapper_base(
-  sample_path = QuasR_df_list$input_SE,
-  genome = config$ref_seq_path,
-  config = config,
-  verbose = TRUE
-)
-
-# Run QuasR for paired-end samples
-PE_count_mat <- QuasR_wrapper_base(
-  sample_path = QuasR_df_list$input_PE,
-  genome = config$ref_seq_path,
-  config = config,
-  verbose = TRUE
-)
+if(FALSE){
+  # Testing the base function
+  # Align and count reads
+  SE_count_mat <- QuasR_wrapper_base(
+    sample_path = QuasR_df_list$input_SE,
+    genome = config$ref_seq_path,
+    config = config,
+    verbose = TRUE
+  )
+  
+  # Run QuasR for paired-end samples
+  PE_count_mat <- QuasR_wrapper_base(
+    sample_path = QuasR_df_list$input_PE,
+    genome = config$ref_seq_path,
+    config = config,
+    verbose = TRUE
+  )
+}
 
 # Testing the main wrapper function
 count_mat <- QuasR_wrapper(config)
 # write.table(count_mat, file = paste0(wd, "/results/count_matrix.txt"), sep = "\t", row.names = TRUE, col.names = TRUE, quote = FALSE)
 # Heatmap(count_mat, cluster_rows = FALSE, cluster_columns = FALSE)
-
-
 
 # Test constructing SE object
 source(paste0(wd, "/scripts/Summarized_SeEN_Experiment.r"))
