@@ -63,30 +63,29 @@ QuasR_df_list <- sample_df_to_QuasR_table(sample_df, output_prefix = QuasR_outpu
 # region Run QuasR
 
 source(paste0(wd, "/scripts/QuasR_wrapper.r"))
-
-# Testing the base function
-# Align and count reads
-SE_count_mat <- QuasR_wrapper_base(
-  sample_path = QuasR_df_list$input_SE,
-  genome = config$ref_seq_path,
-  config = config,
-  verbose = TRUE
-)
-
-# Run QuasR for paired-end samples
-PE_count_mat <- QuasR_wrapper_base(
-  sample_path = QuasR_df_list$input_PE,
-  genome = config$ref_seq_path,
-  config = config,
-  verbose = TRUE
-)
+if(FALSE){
+  # Testing the base function
+  # Align and count reads
+  SE_count_mat <- QuasR_wrapper_base(
+    sample_path = QuasR_df_list$input_SE,
+    genome = config$ref_seq_path,
+    config = config,
+    verbose = TRUE
+  )
+  
+  # Run QuasR for paired-end samples
+  PE_count_mat <- QuasR_wrapper_base(
+    sample_path = QuasR_df_list$input_PE,
+    genome = config$ref_seq_path,
+    config = config,
+    verbose = TRUE
+  )
+}
 
 # Testing the main wrapper function
 count_mat <- QuasR_wrapper(config)
 # write.table(count_mat, file = paste0(wd, "/results/count_matrix.txt"), sep = "\t", row.names = TRUE, col.names = TRUE, quote = FALSE)
 # Heatmap(count_mat, cluster_rows = FALSE, cluster_columns = FALSE)
-
-
 
 # Test constructing SE object
 source(paste0(wd, "/scripts/Summarized_SeEN_Experiment.r"))
@@ -95,4 +94,32 @@ SeEN_se <- Summarized_SeEN_Experiment(count_matrix=count_mat, sample_table=sampl
 
 SeEN_se <- SeEN_se.library_size_norm(SeEN_se=SeEN_se, pseudo_count=1)
 SeEN_se <- SeEN_se.enrichment(SeEN_se=SeEN_se, comparisons=config$compare_fraction)
+
+
+# SeEN_se to Xlsx file ----
+source(paste0(wd, "/scripts/write_SeEN_xlsx.r"))
+SeEN_se.write_xlsx(SeEN_se, file=paste0(wd, "/results/", config$project_name, "/", config$project_name, "_SeEN_data.xlsx"))
+
+source(paste0(wd, "/scripts/plot_SeEN_enrichment.r"))
+colData(SeEN_se)
+SeEN_se.plot_enrichment(SeEN_se)
+SeEN_se.plot_enrichment(SeEN_se, color_by=NULL, group_by=NULL, facet_formula=NULL)
+SeEN_se.plot_enrichment(SeEN_se, group_by="sample", color_by="condition")
+SeEN_se.plot_enrichment(SeEN_se, group_by="sample", color_by="condition", facet_formula="condition~.")
+SeEN_se.plot_enrichment(SeEN_se, group_by="sample", color_by="condition", average_group=TRUE)
+
+SeEN_se.plot_enrichment(SeEN_se, group_by="condition", color_by="condition", average_group=TRUE)
+SeEN_se.plot_enrichment(SeEN_se, group_by="condition", color_by="condition", average_group=TRUE, 
+                        facet_formula="condition~.")
+SeEN_se.plot_enrichment(SeEN_se, group_by="condition", color_by="condition", average_group=TRUE, 
+                        NA_replace.x=-1, facet_formula="condition~.")
+SeEN_se.plot_enrichment(SeEN_se, group_by="condition", color_by="condition", average_group=TRUE, 
+                        NA_replace.x=-1, facet_formula="condition~.", 
+                        show_plot_as="line and point", show_group_avg_as="errorbar and ribbon")
+SeEN_se.plot_enrichment(SeEN_se, group_by="condition", color_by="condition", average_group=TRUE, 
+                        NA_replace.x=-1, facet_formula="condition~.", 
+                        show_plot_as="line", show_group_avg_as="errorbar")
+SeEN_se.plot_enrichment(SeEN_se, plot_data=TRUE)
+SeEN_se.plot_enrichment(SeEN_se, average_group=TRUE, plot_data=TRUE)
+
 

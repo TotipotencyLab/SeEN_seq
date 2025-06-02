@@ -1,0 +1,26 @@
+# NOTE: Only use this for synchronizing the sample table layouts the two SeEN-seq datasets, nor for the actual analysis.
+# Required columns: sample, unique_name, condition, fraction, fastq_prefix
+# Note on columns:
+#    Sample: sample name; this should be corresponding to the lane of the SeEN-seq gel. Thus, can be duplicated as one lane can have multiple fraction. 
+#    unique_name: unique name of each row (i.e., fastq file). This will be used in the count matrix.
+# DNA conc. is in the unit of ng/ul
+sample	unique_name	condition	fraction	fastq_prefix	fraction_id	protein	Protein_conc_uM	replicates	sample_name	volume
+mEsrrb_0.0uM_rep1	mEsrrb_0.0uM_rep1_U	mEsrrb_0.0uM	unbound	S37.conc.R	S37	mouse_Esrrb	0.0	rep1	mouse_Esrrb_0.0uM_1_unbound	10-15uL
+mEsrrb_0.0uM_rep1	mEsrrb_0.0uM_rep1_B	mEsrrb_0.0uM	bound	S38.conc.R	S38	mouse_Esrrb	0.0	rep1	mouse_Esrrb_0.0uM_1_bound	10-15uL
+mEsrrb_0.8uM_rep1	mEsrrb_0.8uM_rep1_U	mEsrrb_0.8uM	unbound	S39.conc.R	S39	mouse_Esrrb	0.8	rep1	mouse_Esrrb_0.8uM_1_unbound	10-15uL
+mEsrrb_0.8uM_rep1	mEsrrb_0.8uM_rep1_B	mEsrrb_0.8uM	bound	S40.conc.R	S40	mouse_Esrrb	0.8	rep1	mouse_Esrrb_0.8uM_1_bound	10-15uL
+mEsrrb_1.0uM_rep1	mEsrrb_1.0uM_rep1_U	mEsrrb_1.0uM	unbound	S41.conc.R	S41	mouse_Esrrb	1.0	rep1	mouse_Esrrb_1.0uM_1_unbound	10-15uL
+mEsrrb_1.0uM_rep1	mEsrrb_1.0uM_rep1_B	mEsrrb_1.0uM	bound	S42.conc.R	S42	mouse_Esrrb	1.0	rep1	mouse_Esrrb_1.0uM_1_bound	10-15uL
+mEsrrb_0.0uM_rep2	mEsrrb_0.0uM_rep2_U	mEsrrb_0.0uM	unbound	S43.conc.R	S43	mouse_Esrrb	0.0	rep2	mouse_Esrrb_0.0uM_2_unbound	10-15uL
+mEsrrb_0.0uM_rep2	mEsrrb_0.0uM_rep2_B	mEsrrb_0.0uM	bound	S44.conc.R	S44	mouse_Esrrb	0.0	rep2	mouse_Esrrb_0.0uM_2_bound	10-15uL
+mEsrrb_0.8uM_rep2	mEsrrb_0.8uM_rep2_U	mEsrrb_0.8uM	unbound	S45.conc.R	S45	mouse_Esrrb	0.8	rep2	mouse_Esrrb_0.8uM_2_unbound	10-15uL
+mEsrrb_0.8uM_rep2	mEsrrb_0.8uM_rep2_B	mEsrrb_0.8uM	bound	S46.conc.R	S46	mouse_Esrrb	0.8	rep2	mouse_Esrrb_0.8uM_2_bound	10-15uL
+mEsrrb_1.0uM_rep2	mEsrrb_1.0uM_rep2_U	mEsrrb_1.0uM	unbound	S47.conc.R	S47	mouse_Esrrb	1.0	rep2	mouse_Esrrb_1.0uM_2_unbound	10-15uL
+mEsrrb_1.0uM_rep2	mEsrrb_1.0uM_rep2_B	mEsrrb_1.0uM	bound	S48.conc.R	S48	mouse_Esrrb	1.0	rep2	mouse_Esrrb_1.0uM_2_bound	10-15uL
+mEsrrb_0.0uM_rep3	mEsrrb_0.0uM_rep3_U	mEsrrb_0.0uM	unbound	S49.conc.R	S49	mouse_Esrrb	0.0	rep3	mouse_Esrrb_0.0uM_3_unbound	10-15uL
+mEsrrb_0.0uM_rep3	mEsrrb_0.0uM_rep3_B	mEsrrb_0.0uM	bound	S50.conc.R	S50	mouse_Esrrb	0.0	rep3	mouse_Esrrb_0.0uM_3_bound	10-15uL
+mEsrrb_0.8uM_rep3	mEsrrb_0.8uM_rep3_U	mEsrrb_0.8uM	unbound	S51.conc.R	S51	mouse_Esrrb	0.8	rep3	mouse_Esrrb_0.8uM_3_unbound	10-15uL
+mEsrrb_0.8uM_rep3	mEsrrb_0.8uM_rep3_B	mEsrrb_0.8uM	bound	S52.conc.R	S52	mouse_Esrrb	0.8	rep3	mouse_Esrrb_0.8uM_3_bound	10-15uL
+mEsrrb_1.0uM_rep3	mEsrrb_1.0uM_rep3_U	mEsrrb_1.0uM	unbound	S53.conc.R	S53	mouse_Esrrb	1.0	rep3	mouse_Esrrb_1.0uM_3_unbound	10-15uL
+mEsrrb_1.0uM_rep3	mEsrrb_1.0uM_rep3_B	mEsrrb_1.0uM	bound	S54.conc.R	S54	mouse_Esrrb	1.0	rep3	mouse_Esrrb_1.0uM_3_bound	10-15uL
+mEsrrb_x.xuM_rep0	mEsrrb_x.xuM_rep0_Ctrl	mEsrrb_x.xuM	bound	S57.conc.R	S57	mouse_Esrrb_naked_DNA_control		rep0	mouse_Esrrb_x.xuM_naked_DNA_control_bound	10-15uL

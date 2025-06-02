@@ -1,0 +1,44 @@
+# Required columns: sample, unique_name, condition, fraction, fastq_prefix
+# Note on columns:
+#    Sample: sample name; this should be corresponding to the lane of the SeEN-seq gel. Thus, can be duplicated as one lane can have multiple fraction. 
+#    unique_name: unique name of each row (i.e., fastq file). This will be used in the count matrix.
+# DNA conc. is in the unit of ng/ul
+sample	unique_name	condition	fraction	fastq_prefix	fraction_id	protein	Protein_conc_uM	replicates	sample_name	volume
+mNr5a2_0.0uM_rep1	mNr5a2_0.0uM_rep1_U	mNr5a2_0.0uM	unbound	S1.conc.R	S1	mouse_Nr5a2	0.0	rep1	mouse_Nr5a2_0.0uM_1_unbound	10-15uL
+mNr5a2_0.0uM_rep1	mNr5a2_0.0uM_rep1_B	mNr5a2_0.0uM	bound	S2.conc.R	S2	mouse_Nr5a2	0.0	rep1	mouse_Nr5a2_0.0uM_1_bound	10-15uL
+mNr5a2_1.0uM_rep1	mNr5a2_1.0uM_rep1_U	mNr5a2_1.0uM	unbound	S3.conc.R	S3	mouse_Nr5a2	1.0	rep1	mouse_Nr5a2_1.0uM_1_unbound	10-15uL
+mNr5a2_1.0uM_rep1	mNr5a2_1.0uM_rep1_B	mNr5a2_1.0uM	bound	S4.conc.R	S4	mouse_Nr5a2	1.0	rep1	mouse_Nr5a2_1.0uM_1_bound	10-15uL
+mNr5a2_1.2uM_rep1	mNr5a2_1.2uM_rep1_U	mNr5a2_1.2uM	unbound	S5.conc.R	S5	mouse_Nr5a2	1.2	rep1	mouse_Nr5a2_1.2uM_1_unbound	10-15uL
+mNr5a2_1.2uM_rep1	mNr5a2_1.2uM_rep1_B	mNr5a2_1.2uM	bound	S6.conc.R	S6	mouse_Nr5a2	1.2	rep1	mouse_Nr5a2_1.2uM_1_bound	10-15uL
+mNr5a2_0.0uM_rep2	mNr5a2_0.0uM_rep2_U	mNr5a2_0.0uM	unbound	S7.conc.R	S7	mouse_Nr5a2	0.0	rep2	mouse_Nr5a2_0.0uM_2_unbound	10-15uL
+mNr5a2_0.0uM_rep2	mNr5a2_0.0uM_rep2_B	mNr5a2_0.0uM	bound	S8.conc.R	S8	mouse_Nr5a2	0.0	rep2	mouse_Nr5a2_0.0uM_2_bound	10-15uL
+mNr5a2_1.0uM_rep2	mNr5a2_1.0uM_rep2_U	mNr5a2_1.0uM	unbound	S9.conc.R	S9	mouse_Nr5a2	1.0	rep2	mouse_Nr5a2_1.0uM_2_unbound	10-15uL
+mNr5a2_1.0uM_rep2	mNr5a2_1.0uM_rep2_B	mNr5a2_1.0uM	bound	S10.conc.R	S10	mouse_Nr5a2	1.0	rep2	mouse_Nr5a2_1.0uM_2_bound	10-15uL
+mNr5a2_1.2uM_rep2	mNr5a2_1.2uM_rep2_U	mNr5a2_1.2uM	unbound	S11.conc.R	S11	mouse_Nr5a2	1.2	rep2	mouse_Nr5a2_1.2uM_2_unbound	10-15uL
+mNr5a2_1.2uM_rep2	mNr5a2_1.2uM_rep2_B	mNr5a2_1.2uM	bound	S12.conc.R	S12	mouse_Nr5a2	1.2	rep2	mouse_Nr5a2_1.2uM_2_bound	10-15uL
+mNr5a2_0.0uM_rep3	mNr5a2_0.0uM_rep3_U	mNr5a2_0.0uM	unbound	S13.conc.R	S13	mouse_Nr5a2	0.0	rep3	mouse_Nr5a2_0.0uM_3_unbound	10-15uL
+mNr5a2_0.0uM_rep3	mNr5a2_0.0uM_rep3_B	mNr5a2_0.0uM	bound	S14.conc.R	S14	mouse_Nr5a2	0.0	rep3	mouse_Nr5a2_0.0uM_3_bound	10-15uL
+mNr5a2_1.0uM_rep3	mNr5a2_1.0uM_rep3_U	mNr5a2_1.0uM	unbound	S15.conc.R	S15	mouse_Nr5a2	1.0	rep3	mouse_Nr5a2_1.0uM_3_unbound	10-15uL
+mNr5a2_1.0uM_rep3	mNr5a2_1.0uM_rep3_B	mNr5a2_1.0uM	bound	S16.conc.R	S16	mouse_Nr5a2	1.0	rep3	mouse_Nr5a2_1.0uM_3_bound	10-15uL
+mNr5a2_1.2uM_rep3	mNr5a2_1.2uM_rep3_U	mNr5a2_1.2uM	unbound	S17.conc.R	S17	mouse_Nr5a2	1.2	rep3	mouse_Nr5a2_1.2uM_3_unbound	10-15uL
+mNr5a2_1.2uM_rep3	mNr5a2_1.2uM_rep3_B	mNr5a2_1.2uM	bound	S18.conc.R	S18	mouse_Nr5a2	1.2	rep3	mouse_Nr5a2_1.2uM_3_bound	10-15uL
+hNr5a2_0.0uM_rep1	hNr5a2_0.0uM_rep1_U	hNr5a2_0.0uM	unbound	S19.conc.R	S19	human_Nr5a2	0.0	rep1	human_Nr5a2_0.0uM_1_unbound	10-15uL
+hNr5a2_0.0uM_rep1	hNr5a2_0.0uM_rep1_B	hNr5a2_0.0uM	bound	S20.conc.R	S20	human_Nr5a2	0.0	rep1	human_Nr5a2_0.0uM_1_bound	10-15uL
+hNr5a2_0.4uM_rep1	hNr5a2_0.4uM_rep1_U	hNr5a2_0.4uM	unbound	S21.conc.R	S21	human_Nr5a2	0.4	rep1	human_Nr5a2_0.4uM_1_unbound	10-15uL
+hNr5a2_0.4uM_rep1	hNr5a2_0.4uM_rep1_B	hNr5a2_0.4uM	bound	S22.conc.R	S22	human_Nr5a2	0.4	rep1	human_Nr5a2_0.4uM_1_bound	10-15uL
+hNr5a2_0.8uM_rep1	hNr5a2_0.8uM_rep1_U	hNr5a2_0.8uM	unbound	S23.conc.R	S23	human_Nr5a2	0.8	rep1	human_Nr5a2_0.8uM_1_unbound	10-15uL
+hNr5a2_0.8uM_rep1	hNr5a2_0.8uM_rep1_B	hNr5a2_0.8uM	bound	S24.conc.R	S24	human_Nr5a2	0.8	rep1	human_Nr5a2_0.8uM_1_bound	10-15uL
+hNr5a2_0.0uM_rep2	hNr5a2_0.0uM_rep2_U	hNr5a2_0.0uM	unbound	S25.conc.R	S25	human_Nr5a2	0.0	rep2	human_Nr5a2_0.0uM_2_unbound	10-15uL
+hNr5a2_0.0uM_rep2	hNr5a2_0.0uM_rep2_B	hNr5a2_0.0uM	bound	S26.conc.R	S26	human_Nr5a2	0.0	rep2	human_Nr5a2_0.0uM_2_bound	10-15uL
+hNr5a2_0.4uM_rep2	hNr5a2_0.4uM_rep2_U	hNr5a2_0.4uM	unbound	S27.conc.R	S27	human_Nr5a2	0.4	rep2	human_Nr5a2_0.4uM_2_unbound	10-15uL
+hNr5a2_0.4uM_rep2	hNr5a2_0.4uM_rep2_B	hNr5a2_0.4uM	bound	S28.conc.R	S28	human_Nr5a2	0.4	rep2	human_Nr5a2_0.4uM_2_bound	10-15uL
+hNr5a2_0.8uM_rep2	hNr5a2_0.8uM_rep2_U	hNr5a2_0.8uM	unbound	S29.conc.R	S29	human_Nr5a2	0.8	rep2	human_Nr5a2_0.8uM_2_unbound	10-15uL
+hNr5a2_0.8uM_rep2	hNr5a2_0.8uM_rep2_B	hNr5a2_0.8uM	bound	S30.conc.R	S30	human_Nr5a2	0.8	rep2	human_Nr5a2_0.8uM_2_bound	10-15uL
+hNr5a2_0.0uM_rep3	hNr5a2_0.0uM_rep3_U	hNr5a2_0.0uM	unbound	S31.conc.R	S31	human_Nr5a2	0.0	rep3	human_Nr5a2_0.0uM_3_unbound	10-15uL
+hNr5a2_0.0uM_rep3	hNr5a2_0.0uM_rep3_B	hNr5a2_0.0uM	bound	S32.conc.R	S32	human_Nr5a2	0.0	rep3	human_Nr5a2_0.0uM_3_bound	10-15uL
+hNr5a2_0.4uM_rep3	hNr5a2_0.4uM_rep3_U	hNr5a2_0.4uM	unbound	S33.conc.R	S33	human_Nr5a2	0.4	rep3	human_Nr5a2_0.4uM_3_unbound	10-15uL
+hNr5a2_0.4uM_rep3	hNr5a2_0.4uM_rep3_B	hNr5a2_0.4uM	bound	S34.conc.R	S34	human_Nr5a2	0.4	rep3	human_Nr5a2_0.4uM_3_bound	10-15uL
+hNr5a2_0.8uM_rep3	hNr5a2_0.8uM_rep3_U	hNr5a2_0.8uM	unbound	S35.conc.R	S35	human_Nr5a2	0.8	rep3	human_Nr5a2_0.8uM_3_unbound	10-15uL
+hNr5a2_0.8uM_rep3	hNr5a2_0.8uM_rep3_B	hNr5a2_0.8uM	bound	S36.conc.R	S36	human_Nr5a2	0.8	rep3	human_Nr5a2_0.8uM_3_bound	10-15uL
+mNr5a2_x.xuM_rep0	mNr5a2_x.xuM_rep0_Ctrl	mNr5a2_x.xuM	bound	S55.conc.R	S55	mouse_Nr5a2_naked_DNA_control		rep0	mouse_Nr5a2_x.xuM_naked_DNA_control_bound	10-15uL
+hNr5a2_x.xuM_rep0	hNr5a2_x.xuM_rep0_Ctrl	hNr5a2_x.xuM	bound	S56.conc.R	S56	human_Nr5a2_naked_DNA_control		rep0	human_Nr5a2_x.xuM_naked_DNA_control_bound	10-15uL

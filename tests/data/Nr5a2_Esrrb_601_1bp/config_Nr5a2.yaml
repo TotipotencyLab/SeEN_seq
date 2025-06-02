@@ -1,13 +1,13 @@
-project_name: "test_SeEN_seq"
+project_name: "Nr5a2_601_1bp"
 
 # Sample Information
-sample_table_path: "./tests/data/Oct4Sox2/sample_table.tsv"
+sample_table_path: "./tests/data/Nr5a2_Esrrb_601_1bp/sample_table_Nr5a2.tsv"
 
 # Reference Information
-ref_table_path: "./tests/data/Oct4Sox2/ref_table.tsv"
-fastq_dir: "./tests/data/Oct4Sox2/fastq"
+ref_table_path: "./tests/data/Nr5a2_Esrrb_601_1bp/ref_table_Nr5a2.tsv"
+fastq_dir: "./tests/data/Nr5a2_Esrrb_601_1bp/fastq"
 ref_seq_path: 
- - "./tests/data/Oct4Sox2/ref/Oct4Sox2_tile.fasta"
+ - "./tests/data/Nr5a2_Esrrb_601_1bp/ref/SeEN_seq_601_Nr5a2_1bp.fasta"
 
 result_dir: "./results"
 
