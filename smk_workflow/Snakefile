@@ -1,0 +1,215 @@
+onstart:
+    print("Starting SeEN-seq analysis workflow")
+    print(f"usingSnakemake version : {snakemake.__version__}")
+
+import os
+import sys
+# import snakemake
+# import snakemake.utils
+# import snakemake.shell
+import yaml
+import warnings
+import pandas as pd
+import numpy
+import json
+import re
+import glob
+
+
+# Reading config file
+config_path = "config.yaml"
+configfile: "config.yaml"
+config=dict()
+if os.path.exists("config.yaml"):
+    with open("config.yaml") as yml:
+        config = yaml.load(yml, Loader=yaml.FullLoader)
+
+## To be implemented later
+# cluster = dict()
+# if("cluster_config" in config):
+#     cluster_path = config["cluster_config"]
+#     if os.path.exists(cluster_path):
+#         with open(cluster_path) as yml:
+#             cluster = yaml.load(yml, Loader=yaml.FullLoader)
+#     else:
+#         raise FileNotFoundError(f"Cluster configuration file not found: {cluster_path}")
+
+
+#region MARK: Input tables
+# Reading sample and reference input files
+sample_df_path = config["sample_table_path"]
+ref_df_path = config["ref_table_path"]
+
+def read_samples_file(samples_file, comment='#', include_column = None):
+    (_, file_ext) = os.path.splitext(samples_file)
+    if file_ext == '.csv':
+        df = pd.read_csv(samples_file, comment=comment)
+    elif file_ext == '.tsv':
+        df = pd.read_csv(samples_file, sep='\t', comment=comment)
+    elif file_ext == '.xls':
+        df = pd.read_excel(samples_file)
+    elif file_ext == '.xlsx':
+        df = pd.read_excel(samples_file)
+    else:
+        return None
+    if include_column is None:
+        return df
+    return df[df[include_column].isin(['TRUE', '1', 'True'])]
+    # return df[df[include_column] == True]
+
+# os.path.exists(sample_df_path)
+sample_df = read_samples_file(sample_df_path)
+ref_df = read_samples_file(ref_df_path)
+
+
+# Check if the sample table has the expected columns
+expected_cols_sample = ["sample", "unique_name", "condition", "fraction", "fastq_prefix"]
+expected_cols_ref = ["ref_name"]
+
+missing_cols_sample = [col for col in expected_cols_sample if col not in sample_df.columns]
+if missing_cols_sample:
+    raise ValueError(f"Sample table is missing the following columns: {missing_cols_sample}")
+
+missing_cols_ref = [col for col in expected_cols_ref if col not in ref_df.columns]
+if missing_cols_ref:
+    raise ValueError(f"Sample table is missing the following columns: {missing_cols_ref}")
+
+#region MARK: FastQ search
+FASTQ_REGEX=r".+\.f(ast)?q(\.gz)?$"
+LIB_LAYOUT_REGEX = {
+    "R1": r".+[\.\_]R?1\.f(ast)?q(\.gz)?$",
+    "R2": r".+[\.\_]R?2\.f(ast)?q(\.gz)?$"
+}
+
+def fastq_search(sample_df, fastq_dir, fastq_regex=FASTQ_REGEX):
+    # Step 1: Search for fastq files based on the fastq_prefix
+    fastq_dict = {}
+    unfound_samples = []
+    for index, row in sample_df.iterrows():
+        sample_name = row['unique_name']
+        fastq_prefix = row['fastq_prefix']
+        fastq_pattern = os.path.join(fastq_dir, f"{fastq_prefix}*")
+        all_files = glob.glob(fastq_pattern)
+        files = [f for f in all_files if re.match(FASTQ_REGEX, os.path.basename(f))]
+        if not files:
+            unfound_samples.append((sample_name, fastq_prefix))
+        else:
+            fastq_dict[sample_name] = files
+    
+    if unfound_samples:
+        msg = "\n".join([f"Sample '{s}' with prefix '{p}'" for s, p in unfound_samples])
+        raise FileNotFoundError(f"No FASTQ files found for the these {len(unfound_samples)} samples:\n{msg}")
+    return fastq_dict
+
+def check_fastq_dict(fastq_dict, fastq_regex=FASTQ_REGEX):
+    """
+    Check for redundant FASTQ files in the provided dictionary.
+    """
+    sample_counts = {}
+    for sample, files in fastq_dict.items():
+        for file in files:
+            if file not in sample_counts:
+                sample_counts[file] = []
+            sample_counts[file].append(sample)
+    duplicate_files = {file: samples for file, samples in sample_counts.items() if len(samples) > 1}
+    if duplicate_files:
+        msg = "\n".join([f"File '{file}' is assigned to samples: {', '.join(samples)}" for file, samples in duplicate_files.items()])
+        raise ValueError(f"Some FASTQ files are assigned to multiple samples:\n{msg}")
+    return True
+
+def guess_lib_layout(fastq_dict, PE_regex=LIB_LAYOUT_REGEX):
+    """
+    Guess the library layout based on the number of FASTQ files per sample.
+    """
+    layout = {}
+    new_fq_dict = {}
+    # new_fq_dict = {
+    #    "sample1": {
+    #        "SE": None,
+    #        "R1": "/path/to/sample1_R1.fastq.gz",
+    #        "R2": "/path/to/sample1_R2.fastq.gz",
+    #        "other": ["/path/to/sample1_other_x.fastq.gz", "/path/to/sample1_other_y.fastq.gz"]
+    #    },
+    # }
+    for sample, fq_paths in fastq_dict.items():
+        layout[sample] = "Unknown" # placeholder 
+        fq_basenames = [os.path.basename(f) for f in fq_paths]
+        if len(fq_paths) == 1:
+            layout[sample] = "SE"
+            new_fq_dict[sample] = {"SE": fq_paths, "R1": None, "R2": None, "other": []}
+        elif len(fq_paths) >= 2:
+            # DEPRECIATED
+            # # Need to have 1 file of R1 and 1 file of R2 to be considered as paired-end
+            # fq_found = [sum(1 for f in fq_basenames if re.match(PE_regex["R1"], f)),
+            #             sum(1 for f in fq_basenames if re.match(PE_regex["R2"], f))]
+            # if fq_found[0] == 1 and fq_found[1] == 1:
+            #     layout[sample] = "PE"
+            
+            # R1_matches = list of the same length as fq_basenames, with True for R1 matches and False otherwise
+            R1_matches = [re.match(PE_regex["R1"], f) is not None for f in fq_basenames]
+            R2_matches = [re.match(PE_regex["R2"], f) is not None for f in fq_basenames]
+            R1_file = [f for f, match in zip(fq_paths, R1_matches) if match]
+            R2_file = [f for f, match in zip(fq_paths, R2_matches) if match]
+            if len(R1_file) == 1 and len(R2_file) == 1:
+                other_fq = [f for f in fq_paths if (f not in R1_file) and (f not in R2_file)]
+                layout[sample] = "PE"
+                new_fq_dict[sample] = {"SE": None, "R1": R1_file[0], "R2": R2_file[0], "other": other_fq}
+            else:
+                other_fq = fq_paths
+                new_fq_dict[sample] = {"SE": None, "R1": None, "R2": None, "other": other_fq}
+    return layout, new_fq_dict
+
+def assign_fastq(sample_df, fastq_dir, fastq_regex=FASTQ_REGEX, PE_regex=LIB_LAYOUT_REGEX):
+    """
+    Assign FASTQ files to samples based on the fastq_prefix and guess the library layout.
+    """
+    # fq_dict will have this structure:
+    # fq_dict = {
+    #    "sample1": {
+    #        "SE": None,
+    #        "R1": "/path/to/sample1_R1.fastq.gz",
+    #        "R2": "/path/to/sample1_R2.fastq.gz",
+    #        "other": ["/path/to/sample1_other_x.fastq.gz", "/path/to/sample1_other_y.fastq.gz"],
+    #        "prefix": "sample1",
+    #        "layout": "PE"  # or "SE", "Unknown"
+    #    },
+    # }
+    fastq_dict = fastq_search(sample_df, fastq_dir, fastq_regex)
+    if not fastq_dict:
+        raise FileNotFoundError("No FASTQ files found for any samples.")
+    fq_pass = check_fastq_dict(fastq_dict, fastq_regex) # should raise error if there are redundant files
+    fq_layout, new_fq_dict = guess_lib_layout(fastq_dict, PE_regex)
+    
+    # Add layout and fastq_prefix information (from fq_layout and sample_df, respectively)
+    # both should have the same set of samples (keys in the dictionary and unique_name in sample_df)
+    # iterate through row of sample_df
+    for index, row in sample_df.iterrows():
+        sample_name = row['unique_name']
+        if sample_name in fq_layout:
+            layout = fq_layout[sample_name]
+            new_fq_dict[sample_name]['layout'] = layout
+            new_fq_dict[sample_name]['fastq_prefix'] = row['fastq_prefix']
+        else:
+            # If the sample is not found in fq_layout, we can assign default values
+            new_fq_dict[sample_name] = {
+                "SE": None,
+                "R1": None,
+                "R2": None,
+                "other": [],
+                "layout": "Unknown",
+                "fastq_prefix": row['fastq_prefix']
+            }
+    # For reporting purposes: transform the new_fq_dict into a DataFrame and save to file later
+    new_sample_df = pd.DataFrame.from_dict(new_fq_dict, orient='index')
+    new_sample_df.reset_index(inplace=True)
+    new_sample_df.rename(columns={'index': 'unique_name'}, inplace=True)
+    new_sample_df = new_sample_df[['unique_name', 'fastq_prefix', 'layout', 'SE', 'R1', 'R2', 'other']]
+    # Return
+    return new_fq_dict, new_sample_df
+
+# Actual search
+fastq_dir = config.get("fastq_dir", "fastq_files")
+FASTQ_DICT, FASTQ_TABLE = assign_fastq(sample_df, fastq_dir, FASTQ_REGEX, LIB_LAYOUT_REGEX)
+
+#region MARK: Make targets
+
