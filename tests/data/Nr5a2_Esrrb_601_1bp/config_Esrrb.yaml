@@ -1,0 +1,40 @@
+project_name: "Esrrb_601_1bp"
+
+# Sample Information
+sample_table_path: "./tests/data/Nr5a2_Esrrb_601_1bp/sample_table_Esrrb.tsv"
+
+# Reference Information
+ref_table_path: "./tests/data/Nr5a2_Esrrb_601_1bp/ref_table_Esrrb.tsv"
+fastq_dir: "./tests/data/Nr5a2_Esrrb_601_1bp/fastq"
+ref_seq_path: 
+ - "./tests/data/Nr5a2_Esrrb_601_1bp/ref/SeEN_seq_601_Esrrb_1bp.fasta"
+
+result_dir: "./results"
+
+# Analysis section
+pseudo_count: 1
+compare_fraction:
+  # test: control # or
+  # test: [control_1, control_2]
+  bound: [unbound]
+
+# Quasr Parameters
+QuasR_params:
+  # project_name: "test"
+  n_cores: 16 # will be used to make cluster using parallel package
+  aligner: "Rbowtie"
+  aln_dir: "bam"
+  cache_dir: "cache"
+  aln_param: "--no-discordant"
+  spliced_aln: False
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////
+#region Snakemake Params
+# /////////////////////////////////////////////////////////////////////////////////////////////////
+# NOTE: This section hasn't been implemented yet
+
+# Choosing alignment method:
+#  QuasR: run using QuasR in R (running bowtie2 in the background)
+#  bowtie2: run through shell command
+
+# aligner: "QuasR" 
