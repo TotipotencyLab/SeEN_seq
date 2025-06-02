@@ -1,15 +1,9 @@
 
 # Note on zcat: 
 # Somehow zcat always add Z at the end of the file, so using gunzip --stdout is a better option
+# The wildcards functions for retrieving input fastq file are defined in the Snakefile
 
 # MARK: Single-end
-def r0_wc_get_fastqc_raw_SE(wildcards):
-    fq = FASTQ_INFO[wildcards.sample]["SE"]
-    if not fq:
-        # Give fastq that doesn't exist to allow rule switching (see ruleorder)
-        fq = "./unknown.fastq"
-    return fq
-
 rule r0_fastqc_raw_SE:
     input: r0_wc_get_fastqc_raw_SE
     output:
@@ -26,21 +20,8 @@ rule r0_fastqc_raw_SE:
         echo $cmd > {log}; eval $cmd
         """
 
-# {config[tool_FastQC_module]}
-        # {params.cat} {input} | {config[tool_FastQC]}fastqc stdin:{params.sample_name}_raw --threads {threads} --quiet -o 02_fastQC/
-
-
 
 # MARK: Paired-end
-def r0_wc_get_fastqc_raw_R1(wildcards):
-    fq = FASTQ_INFO[wildcards.sample]["R1"]
-    return fq or "./unknown_R1.fastq"
-
-def r0_wc_get_fastqc_raw_R2(wildcards):
-    fq = FASTQ_INFO[wildcards.sample]["R2"]
-    return fq or "./unknown_R2.fastq"
-
-
 rule r0_fastqc_raw_PE:
     input: 
         # Only run this rule if both R1 and R2 are present

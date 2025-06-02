@@ -245,20 +245,49 @@ SAMPLES = sample_df['sample'].tolist()
 
 # target files of individual step
 targets_fastqc = []
+targets_trim_galore = []
 for sample_unq in SAMPLES_UNQ:
     # fq_basename = [os.path.basename(f) for f in FASTQ_DICT.get(sample_unq, [])]
     # # remvoe extension FASTQ_EXT_REGEX from basename
     # fq_prefix = [re.sub(FASTQ_EXT_REGEX, '', f) for f in fq_basename]
-    
+
     if FASTQ_INFO[sample_unq]["layout"] == "SE":
         targets_fastqc.extend([f"{proj_dir}/0_fastqc_raw/{sample_unq}_fastqc.html"])
+        targets_trim_galore.extend([f"{proj_dir}/0_fastq_trimmed/{sample_unq}_trimmed.fq.gz"])
     if FASTQ_INFO[sample_unq]["layout"] == "PE":
-        targets_fastqc.extend([f"{proj_dir}/0_fastqc_raw/{sample_unq}_R1_fastqc.html", 
-        f"{proj_dir}/0_fastqc_raw/{sample_unq}_R2_fastqc.html"])
+        targets_fastqc.extend([f"{proj_dir}/0_fastqc_raw/{sample_unq}_R{R}_fastqc.html" for R in [1, 2]])
+        targets_trim_galore.extend([f"{proj_dir}/0_fastq_trimmed/{sample_unq}_val_{R}.fq.gz" for R in [1, 2]])
 
 # Adding to TARGETS variable
 TARGETS=[]
-TARGETS.extend(targets_fastqc)
+# TARGETS.extend(targets_fastqc)
+TARGETS.extend(targets_trim_galore)
+
+# print("Targets for the workflow:")
+# print("========================================")
+# for target in TARGETS:
+#     print(target)
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////
+#region MARK: Wildcards Fn
+# /////////////////////////////////////////////////////////////////////////////////////////////////
+# For listing wildcards functions that shared between multiple rule sets
+
+def r0_wc_get_fastqc_raw_SE(wildcards):
+    fq = FASTQ_INFO[wildcards.sample]["SE"]
+    if not fq:
+        # Give fastq that doesn't exist to allow rule switching (see ruleorder)
+        fq = "./unknown.fastq"
+    return fq
+
+def r0_wc_get_fastqc_raw_R1(wildcards):
+    fq = FASTQ_INFO[wildcards.sample]["R1"]
+    return fq or "./unknown_R1.fastq"
+
+def r0_wc_get_fastqc_raw_R2(wildcards):
+    fq = FASTQ_INFO[wildcards.sample]["R2"]
+    return fq or "./unknown_R2.fastq"
+
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////
 #region MARK: Rules
@@ -269,3 +298,4 @@ rule all:
         TARGETS
 
 include: "rules/r0_fastqc.smk"
+include: "rules/r0_trim_galore.smk"
