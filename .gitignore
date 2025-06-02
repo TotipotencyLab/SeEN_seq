@@ -9,8 +9,7 @@ tests/data/*/fastq
 tests/data/*/ref
 
 *.Rproj
-
-*.Rproj
+.snakemake
 
 # Template from GitHub ----------------------------------------------------------------------------
 # History files

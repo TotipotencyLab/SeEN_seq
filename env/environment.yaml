@@ -1,0 +1,40 @@
+name: SeEN_smk
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip
+  - snakemake>=7.*.*
+  - yaml
+  - numpy
+  - pandas
+  - scipy
+  - matplotlib
+  - seaborn
+  # NGS related tools
+  - fastqc
+  - cutadapt
+  - trim-galore
+  - bowtie2
+  - bwa
+  - samtools
+  # R
+  - r-base=4.4
+  - r-biocmanager
+  - r-readxl
+  - r-writexl
+  - r-stringr
+  - r-dplyr
+  - r-tidyr
+  - r-tibble
+  - r-ggplot2
+  - r-viridis
+  - r-rcolorbrewer
+  - r-circlize
+  # - bioconda::bioconductor-quasr # may not be supported if you are using ARM architecture
+  - bioconductor-complexheatmap
+  - bioconda::bioconductor-biostrings
+  - bioconda::bioconductor-genomicranges
+  - bioconda::bioconductor-rtracklayer
+
