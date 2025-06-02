@@ -100,3 +100,27 @@ SeEN_se <- SeEN_se.enrichment(SeEN_se=SeEN_se, comparisons=config$compare_fracti
 # SeEN_se to Xlsx file ----
 source(paste0(wd, "/scripts/write_SeEN_xlsx.r"))
 SeEN_se.write_xlsx(SeEN_se, file=paste0(wd, "/results/", config$project_name, "/", config$project_name, "_SeEN_data.xlsx"))
+
+source(paste0(wd, "/scripts/plot_SeEN_enrichment.r"))
+colData(SeEN_se)
+SeEN_se.plot_enrichment(SeEN_se)
+SeEN_se.plot_enrichment(SeEN_se, color_by=NULL, group_by=NULL, facet_formula=NULL)
+SeEN_se.plot_enrichment(SeEN_se, group_by="sample", color_by="condition")
+SeEN_se.plot_enrichment(SeEN_se, group_by="sample", color_by="condition", facet_formula="condition~.")
+SeEN_se.plot_enrichment(SeEN_se, group_by="sample", color_by="condition", average_group=TRUE)
+
+SeEN_se.plot_enrichment(SeEN_se, group_by="condition", color_by="condition", average_group=TRUE)
+SeEN_se.plot_enrichment(SeEN_se, group_by="condition", color_by="condition", average_group=TRUE, 
+                        facet_formula="condition~.")
+SeEN_se.plot_enrichment(SeEN_se, group_by="condition", color_by="condition", average_group=TRUE, 
+                        NA_replace.x=-1, facet_formula="condition~.")
+SeEN_se.plot_enrichment(SeEN_se, group_by="condition", color_by="condition", average_group=TRUE, 
+                        NA_replace.x=-1, facet_formula="condition~.", 
+                        show_plot_as="line and point", show_group_avg_as="errorbar and ribbon")
+SeEN_se.plot_enrichment(SeEN_se, group_by="condition", color_by="condition", average_group=TRUE, 
+                        NA_replace.x=-1, facet_formula="condition~.", 
+                        show_plot_as="line", show_group_avg_as="errorbar")
+SeEN_se.plot_enrichment(SeEN_se, plot_data=TRUE)
+SeEN_se.plot_enrichment(SeEN_se, average_group=TRUE, plot_data=TRUE)
+
+
