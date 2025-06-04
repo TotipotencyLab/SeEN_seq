@@ -1,15 +1,18 @@
-project_name: "test_SeEN_seq"
+project_name: "Nr5a2_601_1bp"
+# /////////////////////////////////////////////////////////////////////////////////////////////////
+#region Project Information
+# /////////////////////////////////////////////////////////////////////////////////////////////////
 
 # Sample Information
-sample_table_path: "./tests/data/Oct4Sox2/sample_table.tsv"
+sample_table_path: "tests/data/Nr5a2_Esrrb_601_1bp/sample_table_Nr5a2.tsv"
 
 # Reference Information
-ref_table_path: "./tests/data/Oct4Sox2/ref_table.tsv"
-fastq_dir: "./tests/data/Oct4Sox2/fastq"
+ref_table_path: "tests/data/Nr5a2_Esrrb_601_1bp/ref_table_Nr5a2.tsv"
+fastq_dir: "tests/data/Nr5a2_Esrrb_601_1bp/fastq"
 ref_seq_path: 
- - "./tests/data/Oct4Sox2/ref/Oct4Sox2_tile.fasta"
+ - "tests/data/Nr5a2_Esrrb_601_1bp/ref/SeEN_seq_601_Nr5a2_1bp.fasta"
 
-result_dir: "./results"
+result_dir: "results"
 
 # Analysis section
 pseudo_count: 1
@@ -38,3 +41,20 @@ QuasR_params:
 #  bowtie2: run through shell command
 
 # aligner: "QuasR" 
+
+# Extra params in trim_galore setting can be any options except:
+#  --cores, --paired, --basename, -o,
+trim_galore_params:
+  quality: 20
+  length: 20
+  extra: "--gzip --fastqc"
+
+bowtie2:
+  extra_params: "--no-discordant --no-mixed --no-mixed --no-discordant"
+
+# Note on `flag_arg`: The default value is "-F 1804", which mean reads containing the following flags will be excluded:
+# read_unmap (0x4), mate_unmap (0x8), not primary alignment (0x100), reads failed quality checks (0x200), duplicate reads (0x400), and supplementary alignment (0x800).
+# See this for more information of the flag argument: https://broadinstitute.github.io/picard/explain-flags.html
+filter_bam:
+  min_quality: 20
+  flag_arg: "-F 1804"
