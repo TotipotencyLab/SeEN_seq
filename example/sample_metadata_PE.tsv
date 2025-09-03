@@ -1,19 +1,19 @@
-sample	group	fraction	condition	fastq_prefix	protein	Protein_conc_uM	replicate	FileName1	FileName2
-mEsrrb_0.0uM_rep1_U	mEsrrb_0.0uM_rep1	Unbound	No TF	S37.conc.R	no_TF	0.0	rep1	example/fastq/S37.conc.R1.fastq.gz	example/fastq/S37.conc.R2.fastq.gz
-mEsrrb_0.0uM_rep1_B	mEsrrb_0.0uM_rep1	Bound	No TF	S38.conc.R	no_TF	0.0	rep1	example/fastq/S38.conc.R1.fastq.gz	example/fastq/S38.conc.R2.fastq.gz
-mEsrrb_0.0uM_rep2_U	mEsrrb_0.0uM_rep2	Unbound	No TF	S43.conc.R	no_TF	0.0	rep2	example/fastq/S43.conc.R1.fastq.gz	example/fastq/S43.conc.R2.fastq.gz
-mEsrrb_0.0uM_rep2_B	mEsrrb_0.0uM_rep2	Bound	No TF	S44.conc.R	no_TF	0.0	rep2	example/fastq/S44.conc.R1.fastq.gz	example/fastq/S44.conc.R2.fastq.gz
-mEsrrb_0.0uM_rep3_U	mEsrrb_0.0uM_rep3	Unbound	No TF	S49.conc.R	no_TF	0.0	rep3	example/fastq/S49.conc.R1.fastq.gz	example/fastq/S49.conc.R2.fastq.gz
-mEsrrb_0.0uM_rep3_B	mEsrrb_0.0uM_rep3	Bound	No TF	S50.conc.R	no_TF	0.0	rep3	example/fastq/S50.conc.R1.fastq.gz	example/fastq/S50.conc.R2.fastq.gz
-mEsrrb_0.8uM_rep1_U	mEsrrb_0.8uM_rep1	Unbound	Esrrb (0.8 uM)	S39.conc.R	mouse_Esrrb	0.8	rep1	example/fastq/S39.conc.R1.fastq.gz	example/fastq/S39.conc.R2.fastq.gz
-mEsrrb_0.8uM_rep1_B	mEsrrb_0.8uM_rep1	Bound	Esrrb (0.8 uM)	S40.conc.R	mouse_Esrrb	0.8	rep1	example/fastq/S40.conc.R1.fastq.gz	example/fastq/S40.conc.R2.fastq.gz
-mEsrrb_0.8uM_rep2_U	mEsrrb_0.8uM_rep2	Unbound	Esrrb (0.8 uM)	S45.conc.R	mouse_Esrrb	0.8	rep2	example/fastq/S45.conc.R1.fastq.gz	example/fastq/S45.conc.R2.fastq.gz
-mEsrrb_0.8uM_rep2_B	mEsrrb_0.8uM_rep2	Bound	Esrrb (0.8 uM)	S46.conc.R	mouse_Esrrb	0.8	rep2	example/fastq/S46.conc.R1.fastq.gz	example/fastq/S46.conc.R2.fastq.gz
-mEsrrb_0.8uM_rep3_U	mEsrrb_0.8uM_rep3	Unbound	Esrrb (0.8 uM)	S51.conc.R	mouse_Esrrb	0.8	rep3	example/fastq/S51.conc.R1.fastq.gz	example/fastq/S51.conc.R2.fastq.gz
-mEsrrb_0.8uM_rep3_B	mEsrrb_0.8uM_rep3	Bound	Esrrb (0.8 uM)	S52.conc.R	mouse_Esrrb	0.8	rep3	example/fastq/S52.conc.R1.fastq.gz	example/fastq/S52.conc.R2.fastq.gz
-mEsrrb_1.0uM_rep1_U	mEsrrb_1.0uM_rep1	Unbound	Esrrb (1.0 uM)	S41.conc.R	mouse_Esrrb	1.0	rep1	example/fastq/S41.conc.R1.fastq.gz	example/fastq/S41.conc.R2.fastq.gz
-mEsrrb_1.0uM_rep1_B	mEsrrb_1.0uM_rep1	Bound	Esrrb (1.0 uM)	S42.conc.R	mouse_Esrrb	1.0	rep1	example/fastq/S42.conc.R1.fastq.gz	example/fastq/S42.conc.R2.fastq.gz
-mEsrrb_1.0uM_rep2_U	mEsrrb_1.0uM_rep2	Unbound	Esrrb (1.0 uM)	S47.conc.R	mouse_Esrrb	1.0	rep2	example/fastq/S47.conc.R1.fastq.gz	example/fastq/S47.conc.R2.fastq.gz
-mEsrrb_1.0uM_rep2_B	mEsrrb_1.0uM_rep2	Bound	Esrrb (1.0 uM)	S48.conc.R	mouse_Esrrb	1.0	rep2	example/fastq/S48.conc.R1.fastq.gz	example/fastq/S48.conc.R2.fastq.gz
-mEsrrb_1.0uM_rep3_U	mEsrrb_1.0uM_rep3	Unbound	Esrrb (1.0 uM)	S53.conc.R	mouse_Esrrb	1.0	rep3	example/fastq/S53.conc.R1.fastq.gz	example/fastq/S53.conc.R2.fastq.gz
-mEsrrb_1.0uM_rep3_B	mEsrrb_1.0uM_rep3	Bound	Esrrb (1.0 uM)	S54.conc.R	mouse_Esrrb	1.0	rep3	example/fastq/S54.conc.R1.fastq.gz	example/fastq/S54.conc.R2.fastq.gz
+sample	group	fraction	condition	fastq_prefix	protein	Protein_conc_uM	replicate	old_ID	FileName1	FileName2
+mEsrrb_0.0uM_rep1_U	mEsrrb_0.0uM_rep1	Unbound	No_TF_0.0uM	SRR34971275	no_TF	0.0	rep1	S37	example/fastq/SRR34971275_1.fastq.gz	example/fastq/SRR34971275_2.fastq.gz
+mEsrrb_0.0uM_rep1_B	mEsrrb_0.0uM_rep1	Bound	No_TF_0.0uM	SRR34971274	no_TF	0.0	rep1	S38	example/fastq/SRR34971274_1.fastq.gz	example/fastq/SRR34971274_2.fastq.gz
+mEsrrb_0.0uM_rep2_U	mEsrrb_0.0uM_rep2	Unbound	No_TF_0.0uM	SRR34971261	no_TF	0.0	rep2	S43	example/fastq/SRR34971261_1.fastq.gz	example/fastq/SRR34971261_2.fastq.gz
+mEsrrb_0.0uM_rep2_B	mEsrrb_0.0uM_rep2	Bound	No_TF_0.0uM	SRR34971260	no_TF	0.0	rep2	S44	example/fastq/SRR34971260_1.fastq.gz	example/fastq/SRR34971260_2.fastq.gz
+mEsrrb_0.0uM_rep3_U	mEsrrb_0.0uM_rep3	Unbound	No_TF_0.0uM	SRR34971271	no_TF	0.0	rep3	S49	example/fastq/SRR34971271_1.fastq.gz	example/fastq/SRR34971271_2.fastq.gz
+mEsrrb_0.0uM_rep3_B	mEsrrb_0.0uM_rep3	Bound	No_TF_0.0uM	SRR34971270	no_TF	0.0	rep3	S50	example/fastq/SRR34971270_1.fastq.gz	example/fastq/SRR34971270_2.fastq.gz
+mEsrrb_0.8uM_rep1_U	mEsrrb_0.8uM_rep1	Unbound	Esrrb_0.8uM	SRR34971265	mouse_Esrrb	0.8	rep1	S39	example/fastq/SRR34971265_1.fastq.gz	example/fastq/SRR34971265_2.fastq.gz
+mEsrrb_0.8uM_rep1_B	mEsrrb_0.8uM_rep1	Bound	Esrrb_0.8uM	SRR34971264	mouse_Esrrb	0.8	rep1	S40	example/fastq/SRR34971264_1.fastq.gz	example/fastq/SRR34971264_2.fastq.gz
+mEsrrb_0.8uM_rep2_U	mEsrrb_0.8uM_rep2	Unbound	Esrrb_0.8uM	SRR34971259	mouse_Esrrb	0.8	rep2	S45	example/fastq/SRR34971259_1.fastq.gz	example/fastq/SRR34971259_2.fastq.gz
+mEsrrb_0.8uM_rep2_B	mEsrrb_0.8uM_rep2	Bound	Esrrb_0.8uM	SRR34971258	mouse_Esrrb	0.8	rep2	S46	example/fastq/SRR34971258_1.fastq.gz	example/fastq/SRR34971258_2.fastq.gz
+mEsrrb_0.8uM_rep3_U	mEsrrb_0.8uM_rep3	Unbound	Esrrb_0.8uM	SRR34971269	mouse_Esrrb	0.8	rep3	S51	example/fastq/SRR34971269_1.fastq.gz	example/fastq/SRR34971269_2.fastq.gz
+mEsrrb_0.8uM_rep3_B	mEsrrb_0.8uM_rep3	Bound	Esrrb_0.8uM	SRR34971268	mouse_Esrrb	0.8	rep3	S52	example/fastq/SRR34971268_1.fastq.gz	example/fastq/SRR34971268_2.fastq.gz
+mEsrrb_1.0uM_rep1_U	mEsrrb_1.0uM_rep1	Unbound	Esrrb_1.0uM	SRR34971263	mouse_Esrrb	1.0	rep1	S41	example/fastq/SRR34971263_1.fastq.gz	example/fastq/SRR34971263_2.fastq.gz
+mEsrrb_1.0uM_rep1_B	mEsrrb_1.0uM_rep1	Bound	Esrrb_1.0uM	SRR34971262	mouse_Esrrb	1.0	rep1	S42	example/fastq/SRR34971262_1.fastq.gz	example/fastq/SRR34971262_2.fastq.gz
+mEsrrb_1.0uM_rep2_U	mEsrrb_1.0uM_rep2	Unbound	Esrrb_1.0uM	SRR34971273	mouse_Esrrb	1.0	rep2	S47	example/fastq/SRR34971273_1.fastq.gz	example/fastq/SRR34971273_2.fastq.gz
+mEsrrb_1.0uM_rep2_B	mEsrrb_1.0uM_rep2	Bound	Esrrb_1.0uM	SRR34971272	mouse_Esrrb	1.0	rep2	S48	example/fastq/SRR34971272_1.fastq.gz	example/fastq/SRR34971272_2.fastq.gz
+mEsrrb_1.0uM_rep3_U	mEsrrb_1.0uM_rep3	Unbound	Esrrb_1.0uM	SRR34971267	mouse_Esrrb	1.0	rep3	S53	example/fastq/SRR34971267_1.fastq.gz	example/fastq/SRR34971267_2.fastq.gz
+mEsrrb_1.0uM_rep3_B	mEsrrb_1.0uM_rep3	Bound	Esrrb_1.0uM	SRR34971266	mouse_Esrrb	1.0	rep3	S54	example/fastq/SRR34971266_1.fastq.gz	example/fastq/SRR34971266_2.fastq.gz
