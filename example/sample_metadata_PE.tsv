@@ -1,4 +1,4 @@
-sample	group	fraction	condition	fastq_prefix	protein	Protein_conc_uM	replicate	old_ID	FileName1	FileName2
+sample	lane	fraction	condition	fastq_prefix	protein	Protein_conc_uM	replicate	old_ID	FileName1	FileName2
 mEsrrb_0.0uM_rep1_U	mEsrrb_0.0uM_rep1	Unbound	No_TF_0.0uM	SRR34971275	no_TF	0.0	rep1	S37	example/fastq/SRR34971275_1.fastq.gz	example/fastq/SRR34971275_2.fastq.gz
 mEsrrb_0.0uM_rep1_B	mEsrrb_0.0uM_rep1	Bound	No_TF_0.0uM	SRR34971274	no_TF	0.0	rep1	S38	example/fastq/SRR34971274_1.fastq.gz	example/fastq/SRR34971274_2.fastq.gz
 mEsrrb_0.0uM_rep2_U	mEsrrb_0.0uM_rep2	Unbound	No_TF_0.0uM	SRR34971261	no_TF	0.0	rep2	S43	example/fastq/SRR34971261_1.fastq.gz	example/fastq/SRR34971261_2.fastq.gz
