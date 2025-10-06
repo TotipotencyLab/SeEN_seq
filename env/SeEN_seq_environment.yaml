@@ -1,0 +1,46 @@
+## To install the package:
+# mamba env create -f SeEN_seq_environment.yaml
+## To use this environment
+# mamba activate SeEN_seq
+## To remove package: 
+# mamba remove -n SeEN_seq --all
+# mamba env remove -n SeEN_seq
+
+## Note: 
+# At the time of writting this (2025), some key packages, such as bioconductor-quasr or bioconductor-rbowtie2, may not be supported if you are using conda for ARM CPU.
+# User are recommended to only take this environment file as a guideline of R packages that should be installed manually instead.
+
+name: SeEN_seq
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip
+  - bioconda::fastqc # optional
+  - samtools
+  - bioconda::bowtie2
+  - bioconda::sra-tools # uncomment this line if you want to also download the test data
+  ## R and R packages
+  - r-base=4.4
+  - r-biocmanager
+  - r-readxl
+  - conda-forge::r-tidyverse
+  - r-writexl
+  # - r-stringr
+  # - r-dplyr
+  # - r-tidyr
+  # - r-tibble
+  # - r-ggplot2
+  # - r-viridis
+  # - r-rcolorbrewer
+  # - r-circlize
+  # - bioconductor-complexheatmap
+  - bioconda::bioconductor-biostrings
+  - bioconda::bioconductor-genomicranges
+  - bioconda::bioconductor-rtracklayer
+  # QuasR mappings
+  - bioconda::bioconductor-rsamtools
+  - bioconda::bioconductor-shortread
+  - bioconda::bioconductor-rbowtie2 # NOTE: may not be supported if you are using conda for ARM CPU.
+  - bioconda::bioconductor-quasr    # NOTE: may not be supported if you are using conda for ARM CPU.

@@ -9,7 +9,7 @@ cd SeEN_seq
 # /////////////////////////////////////////////////////////////////////////////
 # NOTE: For Macbook user: At the time of writing, this may not work properly if you use the ARM version of conda.
 # If you use mamba, change 'conda' to 'mamba'
-conda env create -f env/SeEN_seq_environment.yml
+conda env create -f env/SeEN_seq_environment.yaml
 conda activate SeEN_seq
 
 # /////////////////////////////////////////////////////////////////////////////
