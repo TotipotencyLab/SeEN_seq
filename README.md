@@ -124,17 +124,17 @@ Below is the overview of the SeEN-seq analysis steps described in this pipeline:
 
 *** -->
 
-## Miscellaneous
+## Key Repo Versions
 
-The exact version of this repository used for submission at STAR Protocol can be found in the [v0.1.0](https://github.com/TotipotencyLab/SeEN_seq/releases/tag/v0.1.0) release.
++ **[Release v0.1.0](https://github.com/TotipotencyLab/SeEN_seq/releases/tag/v0.1.0)**: The exact version used for submission to STAR Protocol.
 
 
 ***
 
 ## Reference
-The analysis of SeEN-seq was originally described in:
+The SeEN-seq assay was originally described in:
 
-Michael, Alicia K., Ralph S. Grand, Luke Isbel, Simone Cavadini, Zuzanna Kozicka, Georg Kempf, Richard D. Bunker et al. "Mechanisms of OCT4-SOX2 motif readout on nucleosomes." _Science_ __368__, no. 6498 (2020): 1460-1465.
++ Michael, Alicia K., Ralph S. Grand, Luke Isbel, Simone Cavadini, Zuzanna Kozicka, Georg Kempf, Richard D. Bunker et al. "Mechanisms of OCT4-SOX2 motif readout on nucleosomes." _Science_ __368__, no. 6498 (2020): 1460-1465.
 
-Kobayashi, Wataru, Anna H. Sappler, Daniel Bollschweiler, Maximilian Kümmecke, Jérôme Basquin, Eda Nur Arslantas, Siwat Ruangroengkulrith, Renate Hornberger, Karl Duderstadt, and Kikuë Tachibana. "Nucleosome-bound NR5A2 structure reveals pioneer factor mechanism by DNA minor groove anchor competition." _Nature structural & molecular biology_ __31__, no. 5 (2024): 757-766.
+<!-- Kobayashi, Wataru, Anna H. Sappler, Daniel Bollschweiler, Maximilian Kümmecke, Jérôme Basquin, Eda Nur Arslantas, Siwat Ruangroengkulrith, Renate Hornberger, Karl Duderstadt, and Kikuë Tachibana. "Nucleosome-bound NR5A2 structure reveals pioneer factor mechanism by DNA minor groove anchor competition." _Nature structural & molecular biology_ __31__, no. 5 (2024): 757-766. -->
 
