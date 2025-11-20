@@ -124,9 +124,10 @@ Below is the overview of the SeEN-seq analysis steps described in this pipeline:
 
 *** -->
 
-## Key Repo Versions
+## Key Version History
 
-+ **[Release v0.1.0](https://github.com/TotipotencyLab/SeEN_seq/releases/tag/v0.1.0)**: The exact version used for submission to STAR Protocol.
++ **[Release v0.1.1](https://github.com/TotipotencyLab/SeEN_seq/releases/tag/v0.1.1)**: The version used for STAR Protocol.
++ **[Release v0.1.0](https://github.com/TotipotencyLab/SeEN_seq/releases/tag/v0.1.0)**: The initial version used for STAR Protocol submission.
 
 
 ***
